@@ -38,13 +38,6 @@ const wikiThree = new WikiArticles({
     content: "The Document Object Model is like an API for interacting with our HTML"
 })
 
-// app.get('/', (req, res) => {
-//     res.send("Hello from REST API");
-// });
-
-// app.post('/', (req, res) => {
-//     res.send("Post on route \" / \" ");
-// })
 
 // WikiArticles.insertMany([wikiOne, wikiTwo, wikiThree], err => {
 //     if (err) {
@@ -55,7 +48,29 @@ const wikiThree = new WikiArticles({
 //     }
 // });
 
+// app.get('/', (req, res) => {
+//     res.send("Hello from REST API");
+// });
 
-// app.listen(3000, () => {
-//     console.log('app listen on port 3000');
+// app.post('/', (req, res) => {
+//     res.send("Post on route \" / \" ");
 // })
+
+app.get('/articles', (req, res) => {
+
+    WikiArticles.find((err, articles) => {
+        if (err) {
+            console.log(err);
+        } else {
+            let data = JSON.stringify(articles, null, 2);
+            res.send(
+                `<pre>${data}</pre>`
+            );
+        }
+    })
+
+})
+
+app.listen(3000, () => {
+    console.log('app listen on port 3000');
+})
