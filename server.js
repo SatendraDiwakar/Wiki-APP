@@ -92,6 +92,68 @@ app.route('/articles')
         });
     });
 
+/*******************Request targeting a specific article*******************/
+
+app.route('/articles/:articleTitle')
+.get((req,res)=>{
+
+    // to use route parameters
+    // req.params.articleTitle = 'React';
+    // to get data which has space in url we need to replace with %20
+    // ex - localhost:3000/articles/Context%20API
+    // to know more https://www.w3schools.com/tags/ref_urlencode.ASP
+
+    WikiArticles.findOne({title: req.params.articleTitle},(err,foundArticle)=>{
+        if (err) {
+            res.send("No Articles match");
+        } else {
+            res.send(foundArticle);
+        }
+    })
+})
+.put((req,res)=>{
+    // updating whole document 
+    // and if no value is there(req.body) then replaced with null
+    WikiArticles.updateOne(
+        {title: req.params.articleTitle},
+        {title: req.body.title, content: req.body.content},
+        err=>{
+            if (err) {
+                res.send(`Cannot change ${req.params.articleTitle}`)
+            } else {
+                res.send(`Successfully change ${req.params.articleTitle}`)
+            }
+        }
+    )
+})
+.patch((req,res)=>{
+    // updating a property of a document
+    // also req.body sends a object what and which fields needed to update
+    WikiArticles.updateOne(
+        {title:req.params.articleTitle},
+        {$set: req.body},
+        err=>{
+            if (err) {
+                res.send(`Cannot change ${req.params.articleTitle}`)
+            } else {
+                res.send(`Successfully change ${req.params.articleTitle}`)
+            }
+        }
+    )
+})
+.delete((req,res)=>{
+    WikiArticles.deleteOne(
+        {title:req.params.articleTitle},
+        err=>{
+            if (err) {
+                res.send(`Cannot delete ${req.params.articleTitle}`)
+            } else {
+                res.send(`Successfully deleted ${req.params.articleTitle}`)
+            }
+        }
+    )
+});
+
 app.listen(3000, () => {
     console.log('app listen on port 3000');
 })
