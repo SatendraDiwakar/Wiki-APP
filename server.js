@@ -48,28 +48,49 @@ const wikiThree = new WikiArticles({
 //     }
 // });
 
-// app.get('/', (req, res) => {
-//     res.send("Hello from REST API");
-// });
 
-// app.post('/', (req, res) => {
-//     res.send("Post on route \" / \" ");
-// })
-
-app.get('/articles', (req, res) => {
-
-    WikiArticles.find((err, articles) => {
-        if (err) {
-            console.log(err);
-        } else {
-            let data = JSON.stringify(articles, null, 2);
-            res.send(
-                `<pre>${data}</pre>`
-            );
-        }
+// chained route handling in docs
+// if we have different http request for same route
+// then we can use this chained route handling
+app.route('/articles')
+    .get((req, res) => {
+        // getting all articles
+        WikiArticles.find((err, articles) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(
+                    // articles
+                    `<pre>${articles}</pre>`
+                );
+            }
+        })
     })
+    .post((req, res) => {
+        // posting new article
+        const newArticle = new WikiArticles({
+            title: req.body.title,
+            content: req.body.content
+        });
 
-})
+        newArticle.save(err => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send('Successfully posted');
+            }
+        });
+    })
+    .delete((req, res) => {
+        // deleting all articles
+        WikiArticles.delete(err => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send('Successfully deleted all articles');
+            }
+        });
+    });
 
 app.listen(3000, () => {
     console.log('app listen on port 3000');
