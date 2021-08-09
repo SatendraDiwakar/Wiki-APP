@@ -1,10 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const ejs = require('ejs');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 
+app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,33 +23,10 @@ const wikiSchema = new mongoose.Schema({
 });
 const WikiArticles = mongoose.model("Wiki", wikiSchema);
 
-const wikiOne = new WikiArticles({
-    title: "API",
-    content: "API stands for Application Programming Interface. It is a set of subroutine definitions, communication protocols, and tools for building software. In general terms, it is a set of clearly defined methods of communication among various components. A good API makes it easier to develop a computer program by providing all the building blocks, which are then put together by the programmer."
-})
 
-const wikiTwo = new WikiArticles({
-    title: "Bootstrap",
-    content: "This is a framework developed by Twitter that contains pre-made front-end templates for web design"
-})
-
-
-const wikiThree = new WikiArticles({
-    title: "DOM",
-    content: "The Document Object Model is like an API for interacting with our HTML"
-})
-
-
-// WikiArticles.insertMany([wikiOne, wikiTwo, wikiThree], err => {
-//     if (err) {
-//         console.log(err);
-//     } else {
-//         console.log('Success');
-//         mongoose.connection.close();
-//     }
-// });
-
-
+app.get('/',(req,res)=>{
+    res.render('list', {listTitle: 'hello'});
+});
 // chained route handling in docs
 // if we have different http request for same route
 // then we can use this chained route handling
