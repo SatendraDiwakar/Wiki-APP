@@ -1,7 +1,58 @@
 <%- include("header") -%>
 
-<div class="box" id="heading">
-    <h1> <%= listTitle %> </h1>
+<h2>Animated Accordion</h2>
+<p>Click on the buttons to open the collapsible content.</p>
+<div class="list-container">
+  <div class="container">
+    <% listItems.forEach(itm=>{ %>
+      <div class="list">
+        <div class="accordion-container" id="<%= itm._id %>">
+          <div class="accordion"><%= itm.title %></div>
+          <div class="panel">
+            <p><%= itm.content %></p>
+          </div>
+        </div>
+        <form action="/delete/<%= itm._id %>" method="POST">
+          <div class="edit-tools">
+            <button
+              type="submit"
+              class="btn btn-delete"
+              onmouseover="hoverDeleteEffect('<%= itm._id %>')"
+              onmouseout="remHoverDeleteEffect('<%= itm._id %>')"
+            >
+              X
+            </button>
+          </div>
+        </form>
+      </div>
+    <% }) %>
   </div>
+</div>
+
+<script>
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      this.classList.toggle("active");
+
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+        panel.style.padding = null;
+      } else {
+        panel.style.maxHeight = panel.scrollHeight + 20 + "px";
+        panel.style.padding = "1rem 1.8rem";
+      }
+    });
+  }
+  const hoverDeleteEffect = (id) => {
+    document.getElementById(id).style = "opacity: .5";
+  };
+  const remHoverDeleteEffect = (id) => {
+    document.getElementById(id).style = "opacity: 1";
+  };
+</script>
 
 <%- include("footer") -%>
