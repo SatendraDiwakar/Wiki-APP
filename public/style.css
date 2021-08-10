@@ -1,3 +1,6 @@
+/* font */
+@import url("fonts.googleapis.com/css2?family=Sulphur+Point&display=swap");
+
 /* global reset */
 *,
 *::before,
@@ -68,24 +71,22 @@ header {
 }
 
 .list-container {
+  margin: 6rem 0;
   padding: 1rem 0;
   width: 100%;
   height: 65%;
-  position: absolute;
-  bottom: 50px;
-  overflow: auto;
 }
-/* .list-container:hover {
-  overflow-y: scroll;
-} */
-
-.list-container > .container {
+.list {
+  margin-top: 1rem;
+  height: 40rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem 0;
+  overflow: auto;
 }
 
-.list{
+.list-item {
   position: relative;
 }
 
@@ -114,7 +115,7 @@ header {
   outline: none;
   font-family: sans-serif;
   font-size: 2.2rem;
-  letter-spacing: .6px;
+  letter-spacing: 0.6px;
   transition: 0.4s;
   position: relative;
 }
@@ -126,13 +127,17 @@ header {
   color: #110c2b;
 }
 
-.edit-tools{
+.edit-tools {
+  width: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   position: absolute;
   right: 10px;
   top: 8px;
 }
 
-.btn{
+.btn {
   width: 35px;
   height: 35px;
   padding: 5px;
@@ -140,14 +145,23 @@ header {
   border-radius: 100%;
   font-family: sans-serif;
   font-size: 2.2rem;
-  letter-spacing: .6px;
+  letter-spacing: 0.6px;
   border: none;
   background: transparent;
   transition: 0.4s;
   cursor: pointer;
 }
 
-.btn-delete:hover{
+.fa-pencil-alt{
+  font-size: 2rem;
+}
+
+.fa-pencil-alt:hover {
+  box-shadow: 0 0 6px #005bff;
+  color: #404bd8;
+}
+
+.btn-delete:hover {
   box-shadow: 0 0 6px red;
   color: red;
 }
@@ -161,6 +175,98 @@ header {
   letter-spacing: 1px;
   overflow-y: auto;
   transition: max-height 0.2s ease-out;
+}
+
+.add-article {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 100%;
+  font-family: sans-serif;
+  font-size: 5rem;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 2px solid #070d1f;
+  color: #070d1f;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.add-article:hover {
+  color: #238aab;
+  box-shadow: 0 0 3px 2px #4065d8;
+}
+
+.insert-article-form {
+  display: none;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+.fClose-btn {
+  width: 4.5rem;
+  height: 4.5rem;
+  background: #fff;
+  position: absolute;
+  top: 22%;
+  right: 18%;
+}
+.fClose-btn:hover {
+  background: transparent;
+  box-shadow: 0 0 6px red;
+  color: red;
+}
+
+.insert-article-btn {
+  width: 20%;
+  height: 5rem;
+  border: none;
+  border-radius: 10px;
+  background: #d84040;
+  font-size: 2.2rem;
+  letter-spacing: 1.5px;
+  color: #fff;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+.insert-article-btn:hover {
+  background: transparent;
+  box-shadow: 0 0 6px #55b7df;
+  color: #23bfff;
+}
+
+.insert-article-form > .input-article {
+  width: 60%;
+  height: 5rem;
+  padding: 1rem;
+  font-family: sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.4px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  overflow-y: auto;
+  transition: all 0.4s;
+}
+.input-article:focus{
+  box-shadow: 0 0 5px 1.5px #55b7df;;
+}
+
+.content {
+  height: 15rem !important;
+  resize: none;
 }
 
 footer {

@@ -1,0 +1,26 @@
+<form
+  action="/articles"
+  onsubmit="return validateForm('')"
+  method="POST"
+  id="add-new-data"
+  class="insert-article-form"
+>
+  <button type="button" id="fClose" class="btn fClose-btn">X</button>
+  <input
+    type="text"
+    name="title"
+    id="title"
+    class="input-article"
+    placeholder="Title"
+    autocomplete="off"
+  />
+  <textarea
+    type="text"
+    name="content"
+    id="content"
+    class="input-article content"
+    placeholder="Content"
+    autocomplete="off"
+  ></textarea>
+  <button type="submit" class="insert-article-btn">Add</button>
+</form>

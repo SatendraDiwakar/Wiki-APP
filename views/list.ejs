@@ -1,33 +1,54 @@
 <%- include("header") -%>
-
+<script>
+  const validateForm = (id) => {
+    const title = document.getElementById("title"+id);
+    const content = document.getElementById("content"+id);
+    if (title.value === "" || content.value === "") {
+      console.log(title.value, content.value);
+      alert("Please fill all details");
+      return false;
+    }
+    return true;
+  };
+</script>
 <h2>Animated Accordion</h2>
 <p>Click on the buttons to open the collapsible content.</p>
 <div class="list-container">
   <div class="container">
-    <% listItems.forEach(itm=>{ %>
-      <div class="list">
-        <div class="accordion-container" id="<%= itm._id %>">
-          <div class="accordion"><%= itm.title %></div>
-          <div class="panel">
-            <p><%= itm.content %></p>
+    <button onclick="showModal()" class="add-article">+</button>
+    <div class="list">
+      <% listItems.forEach(itm=>{ %> 
+        <%- include("formModalUpdate", {id: itm._id}) -%>
+        <div class="list-item">
+          <div class="accordion-container" id="<%= itm._id %>">
+            <div class="accordion"><%= itm.title %></div>
+            <div class="panel">
+              <p><%= itm.content %></p>
+            </div>
+          </div>
+
+          <div class="edit-tools">
+            <i
+              class="btn fas fa-pencil-alt"
+              onclick="showUpdateModal(`<%= itm._id %>`,`<%= itm.title %>`,`<%= itm.content %>`)"
+            ></i>
+            <form action="/delete/<%= itm._id %>" method="POST">
+              <button
+                type="submit"
+                class="btn btn-delete"
+                onmouseover="hoverDeleteEffect('<%= itm._id %>')"
+                onmouseout="remHoverDeleteEffect('<%= itm._id %>')"
+              >
+                X
+              </button>
+            </form>
           </div>
         </div>
-        <form action="/delete/<%= itm._id %>" method="POST">
-          <div class="edit-tools">
-            <button
-              type="submit"
-              class="btn btn-delete"
-              onmouseover="hoverDeleteEffect('<%= itm._id %>')"
-              onmouseout="remHoverDeleteEffect('<%= itm._id %>')"
-            >
-              X
-            </button>
-          </div>
-        </form>
-      </div>
-    <% }) %>
+      <% }) %>
+    </div>
   </div>
 </div>
+<%- include("formModal"); -%>
 
 <script>
   var acc = document.getElementsByClassName("accordion");
@@ -52,6 +73,33 @@
   };
   const remHoverDeleteEffect = (id) => {
     document.getElementById(id).style = "opacity: 1";
+  };
+  const showModal = () => {
+    const fArticle = document.getElementById("add-new-data");
+    const fClose = document.getElementById("fClose");
+
+    fClose.addEventListener("click", () => {
+      fArticle.style = "display: none";
+    });
+    fArticle.style = "display: flex";
+  };
+  const showUpdateModal = (id, pTitle, pContent) => {
+    const fUArticle = document.getElementById(id);
+    const fUClose = document.getElementById("fClose" + id);
+    const titleU = document.getElementById("title" + id);
+    const contentU = document.getElementById("content" + id);
+    if (pTitle !== "") {
+      titleU.value = pTitle;
+      contentU.value = pContent;
+    } else {
+      titleU.value = "";
+      contentU.value = "";
+    }
+
+    fUClose.addEventListener("click", () => {
+      fUArticle.style = "display: none";
+    });
+    fUArticle.style = "display: flex";
   };
 </script>
 
