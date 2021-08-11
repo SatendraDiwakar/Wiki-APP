@@ -1,9 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const dotenv = require('dotenv');
-dotenv.config();
-console.log(`Your password is ${process.env.DB_PASS}`);
+const { mongoPass } = require('./config');
 
 const app = express();
 
@@ -17,7 +15,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-mongoose.connect(`mongodb+srv://admin-satendra:${process.env.DB_PASS}@cluster0.jgoty.mongodb.net/wikiDB`, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://admin-satendra:${mongoPass}@cluster0.jgoty.mongodb.net/wikiDB`, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const wikiSchema = new mongoose.Schema({
     title: {
@@ -170,5 +168,5 @@ if (port == null || port == "") {
   port = 3000;
 }
 app.listen(port, () => {
-    console.log('app listen on port 3000');
+    console.log('success');
 })
