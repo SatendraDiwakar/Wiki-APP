@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const { mongoPass } = require('./config');
 
 const app = express();
 
@@ -15,7 +14,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-mongoose.connect(`mongodb+srv://admin-satendra:${mongoPass}@cluster0.jgoty.mongodb.net/wikiDB`, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://admin-satendra:${process.env.DB_PASS}@cluster0.jgoty.mongodb.net/wikiDB`, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const wikiSchema = new mongoose.Schema({
     title: {
