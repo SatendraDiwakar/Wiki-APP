@@ -1,8 +1,8 @@
 <%- include("header") -%>
 <script>
   const validateForm = (id) => {
-    const title = document.getElementById("title"+id);
-    const content = document.getElementById("content"+id);
+    const title = document.getElementById("title" + id);
+    const content = document.getElementById("content" + id);
     if (title.value === "" || content.value === "") {
       console.log(title.value, content.value);
       alert("Please fill all details");
@@ -11,15 +11,18 @@
     return true;
   };
 </script>
-<h2>Animated Accordion</h2>
-<p>Click on the buttons to open the collapsible content.</p>
+<div class="head-container">
+  <h2 class="header">Welcome to Wiki</h2>
+  <div class="hLine"></div>
+  <p class="specs">Create, Read, Update and Delete Articles</p>
+</div>
 <div class="list-container">
   <div class="container">
     <button onclick="showModal()" class="add-article">+</button>
     <div class="list">
       <% listItems.forEach(itm=>{ %> 
         <%- include("formModalUpdate", {id: itm._id}) -%>
-        <div class="list-item">
+          <div class="list-item">
           <div class="accordion-container" id="<%= itm._id %>">
             <div class="accordion"><%= itm.title %></div>
             <div class="panel">
@@ -36,8 +39,6 @@
               <button
                 type="submit"
                 class="btn btn-delete"
-                onmouseover="hoverDeleteEffect('<%= itm._id %>')"
-                onmouseout="remHoverDeleteEffect('<%= itm._id %>')"
               >
                 X
               </button>
@@ -68,12 +69,6 @@
       }
     });
   }
-  const hoverDeleteEffect = (id) => {
-    document.getElementById(id).style = "opacity: .5";
-  };
-  const remHoverDeleteEffect = (id) => {
-    document.getElementById(id).style = "opacity: 1";
-  };
   const showModal = () => {
     const fArticle = document.getElementById("add-new-data");
     const fClose = document.getElementById("fClose");
@@ -86,15 +81,50 @@
   const showUpdateModal = (id, pTitle, pContent) => {
     const fUArticle = document.getElementById(id);
     const fUClose = document.getElementById("fClose" + id);
-    const titleU = document.getElementById("title" + id);
-    const contentU = document.getElementById("content" + id);
-    if (pTitle !== "") {
-      titleU.value = pTitle;
-      contentU.value = pContent;
-    } else {
-      titleU.value = "";
-      contentU.value = "";
-    }
+    const title = document.getElementById("title" + id);
+    const content = document.getElementById("content" + id);
+    title.value = pTitle;
+    content.value = pContent;
+
+      document.getElementById(id).addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (title.value === "" || content.value === "") {
+          alert("Please fill all details");
+        } else {
+          putData(`/articles/${id}`, {
+            title: title.value,
+            content: content.value
+          }).then((data) => {
+            console.log(data.msg); // JSON data parsed by `data.json()` call
+            alert(`${data.msg} Updated`);
+            fUArticle.style = "display: none";
+          }).then(()=>{
+            location.reload(true);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+        }
+      });
+      // Example POST method implementation:
+      async function putData(url = "", data = {}) {
+        
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: "PUT", // *GET, POST, PUT, DELETE, etc.
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: "follow", // manual, *follow, error
+          referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+          body: JSON.stringify(data), // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+      }
 
     fUClose.addEventListener("click", () => {
       fUArticle.style = "display: none";

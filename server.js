@@ -1,17 +1,23 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+console.log(`Your password is ${process.env.DB_PASS}`);
 
 const app = express();
 
-app.set('views', './views')
+// app.set('views', './views')
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.json());
 
 app.use(express.static('public'));
 
-mongoose.connect('mongodb://localhost:27017/wikiDB', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://admin-satendra:${process.env.DB_PASS}@cluster0.jgoty.mongodb.net/wikiDB`, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const wikiSchema = new mongoose.Schema({
     title: {
@@ -52,20 +58,21 @@ app.get('/', (req, res) => {
             });
             res.redirect("/");
         } else {
-            res.render("list", { listItems: foundItems });
+            res.render("list", { listItems: foundItems});
         }
     });
 });
 app.post('/delete/:id', (req,res)=>{
 
-    WikiArticles.findByIdAndRemove(req.params.id, err => {
+    WikiArticles.deleteOne({_id: req.params.id}, err => {
         if (!err) {
-          console.log("Successfully deleted checked item.");
+          console.log("Successfully deleted article.");
           res.redirect("/");
         }
       });
 });
-// chained route handling in docs
+
+// chained route handling in documents
 // if we have different http request for same route
 // then we can use this chained route handling
 app.route('/articles')
@@ -75,10 +82,7 @@ app.route('/articles')
             if (err) {
                 res.send(err);
             } else {
-                res.send(
-                    // articles
-                    `<pre>${articles}</pre>`
-                );
+                res.send(articles);
             }
         })
     })
@@ -128,7 +132,9 @@ app.route('/articles/:id')
         })
     })
     .put((req, res) => {
-        console.log(req.params.id);
+        // console.log(req.params.id);
+        // console.log(req.body);
+
         // updating whole document 
         // and if no value is there(req.body) then replaced with null
         WikiArticles.updateOne(
@@ -138,7 +144,7 @@ app.route('/articles/:id')
                 if (err) {
                     res.send(`Cannot change ${req.params.id}`)
                 } else {
-                    res.redirect('/');
+                    res.send({msg: 'Successfull'});
                 }
             }
         )
@@ -159,6 +165,6 @@ app.route('/articles/:id')
         )
     });
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('app listen on port 3000');
 })
