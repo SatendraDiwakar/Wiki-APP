@@ -1,6 +1,6 @@
 # Wiki-APP_NodeJs_RESTAPI
 
-An app to create, read, update and delete database from front-end.
+An MVC app to create, read, update and delete database from front-end.
 
 ## Demo
 
