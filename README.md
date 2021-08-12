@@ -1,10 +1,10 @@
 # Wiki-APP_NodeJs_RESTAPI
 
-An app  to create, read, update and delete database from front-end.
+An app to create, read, update and delete database from front-end.
 
 ## Demo
 
-[Wiki App](https://wiki-app-satendra.herokuapp.com/);
+[Wiki App](https://wiki-app-satendra.herokuapp.com/)
 
 ### The purpose of this project is to learn and practice concepts related to:
 > - Building a REST API
@@ -23,7 +23,7 @@ An app  to create, read, update and delete database from front-end.
 
 ### Website Look:
 
-![image](https://github.com/Satendra-EXE/ScreenShot-wiki-app/blob/main/Wiki_Screenshot.png);
+![image](https://github.com/Satendra-EXE/ScreenShot-wiki-app/blob/main/Wiki_Screenshot.png)
 
 ### API Endpoints (CRUD):
 
