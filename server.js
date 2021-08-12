@@ -8,6 +8,15 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+if(process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.header('x-forwarded-proto') !== 'https')
+      res.redirect(`https://${req.header('host')}${req.url}`);
+    else
+      next();
+  });
+};
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
