@@ -1,7 +1,3 @@
-/* font */
-/* @import url("fonts.googleapis.com/css2?family=Sulphur+Point&display=swap"); */
-
-/* global reset */
 *,
 *::before,
 *::after {
@@ -9,10 +5,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+/* global reset */
 
 html {
   font-size: 10px;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 body {
@@ -71,7 +68,7 @@ header {
   transform: translateY(-50%);
 }
 
-.head-container{
+.head-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -86,21 +83,21 @@ header {
   letter-spacing: 1px;
   color: #933a3a;
 }
-.hLine{
+.hLine {
   width: 15rem;
   height: 3px;
   background: #963cbb;
 }
-.specs{
+.specs {
   margin-top: 1.5rem;
   font-family: "Sulphur Point", sans-serif;
   font-size: 2rem;
   text-align: center;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
 .list-container {
-  margin: 6rem 0;
+  margin: 4.5rem 0 0.5rem;
   padding: 1rem 0;
   width: 100%;
   height: 65%;
@@ -207,8 +204,8 @@ header {
 }
 
 .add-article {
-  width: 50px;
-  height: 50px;
+  width: 5rem;
+  height: 5rem;
   padding: 5px;
   text-align: center;
   border-radius: 100%;
@@ -300,17 +297,42 @@ header {
 
 footer {
   width: 100%;
-  height: 4rem;
-  text-align: center;
+  height: 5rem;
   background-color: rgb(7, 13, 31);
   font-family: "Sulphur Point", sans-serif;
   font-size: 1.5rem;
   letter-spacing: 1px;
   color: #fff;
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 footer > p {
   margin: 1rem 0;
+}
+
+@media screen and (max-width: 650px) {
+  html {
+    font-size: 9px;
+  }
+  .list {
+    height: 20rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 8.5px;
+  }
+}
+@media screen and (max-height: 650px) {
+  .list{
+    height: 20rem;
+  }
+}
+@media screen and (min-height: 600px) {
+  footer{    
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  }
 }
